@@ -1,5 +1,5 @@
 class Person
-  attr_reader :id
+  attr_reader :id, :name, :age
 
   def initialize(id, age, name: 'Unknown', parent_permission: true)
     @id = id
