@@ -1,6 +1,5 @@
 class Person
   attr_reader :id
-  
 
   def initialize(id, age, name: 'Unknown', parent_permission: true)
     @id = id
@@ -27,8 +26,3 @@ class Person
     @age >= 18
   end
 end
-
-
-student = Person.new(1, 34, 'enoh', true)
-
-p student.of_age?(16)
