@@ -9,10 +9,6 @@ class Person
     @parent_permission = parent_permission
   end
 
-  def name
-    @name
-  end
-
   def age(age)
     @age = age
   end
