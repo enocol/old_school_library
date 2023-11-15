@@ -38,6 +38,7 @@
 - **[Student class inherits from Person class]**
 - **[Nameable class as a decorator interface]**
 - **[Trimmer_decorator and Capitalize_decorator to trim and capitalise]**
+- **[Create associations]**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -94,7 +95,7 @@ Example command:
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-- [ ] **[Implement other methods]**
+- [ ] **[Add basic UI]**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
