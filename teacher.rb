@@ -8,6 +8,5 @@ class Teacher < Person
     @specialization = specialization
   end
 
-
 end
 

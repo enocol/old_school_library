@@ -8,4 +8,3 @@ class TrimmerDecorator < BaseDecorator
     trimmed_name.length > MAX_LENGTH ? trimmed_name[0, MAX_LENGTH] : trimmed_name
   end
 end
-

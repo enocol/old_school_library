@@ -5,4 +5,3 @@ class CapitalizeDecorator < BaseDecorator
     super.capitalize
   end
 end
-
