@@ -4,7 +4,7 @@ class Student < Person
   attr_accessor :classroom
 
   def initialize(age, name: 'Unknown', parent_permission: true, classroom: nil)
-    super(age, name: name, parent_permission: parent_permission)
+    super(age, name: 'Unknown', parent_permission: true)
     @classroom = classroom
     add_to_classroom_students if classroom
   end
@@ -19,4 +19,3 @@ class Student < Person
     classroom.students << self
   end
 end
-
