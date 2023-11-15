@@ -79,8 +79,6 @@ Example command:
   ruby <name>.rb ("where <name> is the name of each file in the directory")
 ```
 
--
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 👥 Authors <a name="authors"></a>
@@ -106,8 +104,6 @@ Feel free to check the [issues page](../../issues/).
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## ⭐️ Show your support <a name="support"></a>
-
-> Write a message to encourage readers to support your project
 
 If you like this project give us a star.
 
