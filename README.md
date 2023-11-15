@@ -19,7 +19,7 @@
 
 # 📖 [Old School Library] <a name="Old School Library"></a>
 
-**[Old Schools Library]** is a Ruby application with Person, Teacher and Student classes where Teacher and Student classes inherits from the person class.
+**[Old Schools Library]** is a Ruby application with Person, Teacher and Student classes where Teacher and Student classes inherits from the person class which inherits from the Nameable class as a decorator.
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -36,6 +36,8 @@
 - **[Person class as parent class]**
 - **[Teacher class inherits from Person Class]**
 - **[Student class inherits from Person class]**
+- **[Nameable class as a decorator interface]**
+- **[Trimmer_decorator and Capitalize_decorator to trim and capitalise]**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -123,4 +125,3 @@ I would like to thank Microverse
 This project is [MIT](./LICENSE) licensed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
