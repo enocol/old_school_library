@@ -11,3 +11,5 @@ class Book
     rentals << rental
   end
 end
+
+
