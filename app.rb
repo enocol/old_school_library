@@ -161,16 +161,33 @@ class App
   end
 
   def process_option(option)
-    case option
-    when 1 then @book_manager.list_all_books
-    when 2 then @person_manager.list_all_people
-    when 3 then create_person_prompt
-    when 4 then create_book_prompt
-    when 5 then create_rental_prompt
-    when 6 then list_rentals_for_person_prompt
-    when 7 then exit
-    else puts 'Invalid option. Please try again.'
-    end
+  case option
+  when 1 then list_all_books
+  when 2 then list_all_people
+  when 3 then create_person_prompt
+  when 4 then create_book_prompt
+  when 5 then create_rental_prompt
+  when 6 then list_rentals_for_person_prompt
+  when 7 then exit_app
+  else invalid_option
+  end
+end
+
+  def list_all_books
+   @book_manager.list_all_books
+  end
+
+  def list_all_people
+   @person_manager.list_all_people
+  end
+
+  def exit_app
+   puts 'Exiting the Library App. Goodbye!'
+   exit
+  end
+
+  def invalid_option
+    puts 'Invalid option. Please try again.'
   end
 
   def exit_option?(option)
