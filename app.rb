@@ -1,4 +1,3 @@
-
 require_relative 'person'
 require_relative 'book'
 require_relative 'rental'
@@ -24,7 +23,7 @@ class PersonManager
   def get_person(index)
     people = @people['teachers'] + @people['students']
     people[index]
-   end
+  end
 
   def list_all_people
     teachers = @people['teachers']
@@ -112,10 +111,12 @@ class RentalManager
   end
 
   def list_rentals_for_person(person_id)
-    @rentals.each do |rental|
-      puts "Date: #{rental.date}, " \
-           "Book: #{rental.book.title} by " \
-           "Author: #{rental.book.author}" if rental.person['id'] == person_id
+   @rentals.each do |rental|
+      if rental.person['id'] == person_id
+        puts "Date: #{rental.date}, " \
+         "Book: #{rental.book.title} by " \
+         "Author: #{rental.book.author}"
+       end
     end
   end
 end
