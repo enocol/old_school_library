@@ -1,4 +1,3 @@
-
 require_relative 'person'
 require_relative 'book'
 require_relative 'rental'
@@ -6,19 +5,140 @@ require_relative 'student'
 require_relative 'teacher'
 require 'date'
 
-class App
+class PersonManager
   def initialize
-    @person = {'teachers' => [], 'students' => []}
+    @people = {'teachers' => [], 'students' => []}
+  end
+
+  def create_student(age, name, parent_permission, classroom)
+    student = Student.new(age, name, parent_permission, classroom)
+    @people['students'] << student_info(student)
+  end
+
+  def create_teacher(age, name, parent_permission, specialization)
+    teacher = Teacher.new(age, name, parent_permission, specialization)
+    @people['teachers'] << teacher_info(teacher)
+  end
+
+ def list_all_people
+  teachers = @people['teachers']
+  students = @people['students']
+
+  teachers.each_with_index do |teacher, index|
+    puts "#{index}) #{teacher_info_str(teacher)}"
+  end
+
+  students.each_with_index do |student, index|
+      puts "#{teachers.length + index}) #{student_info_str(student)}"
+    end
+
+  puts ''
+  end
+
+  def teacher_info_str(teacher)
+    "[teacher] Name: #{teacher['name']}, ID: #{teacher['id']}, Age: #{teacher['age']}"
+  end
+
+  def student_info_str(student)
+    "[student] Name: #{student['name']}, ID: #{student['id']}, Age: #{student['age']}"
+  end
+
+
+   def get_person(index)
+    people = @people['teachers'] + @people['students']
+    people[index]
+  end
+
+  private
+
+  def student_info(student)
+    {
+      'age' => student.age,
+      'type' => 'student',
+      'name' => student.name,
+      'id' => student.id,
+      'parent_permission' => student.parent_permission,
+      'classroom' => student.classroom
+    }
+  end
+
+  def teacher_info(teacher)
+    {
+      'age' => teacher.age,
+      'type' => 'teacher',
+      'name' => teacher.name,
+      'id' => teacher.id,
+      'parent_permission' => teacher.parent_permission,
+      'specialization' => teacher.specialization
+    }
+  end
+
+  def student_info_str(student)
+    "[student] Name: #{student['name']}, ID: #{student['id']}, Age: #{student['age']}"
+  end
+
+  def teacher_info_str(teacher)
+    "[teacher] Name: #{teacher['name']}, ID: #{teacher['id']}, Age: #{teacher['age']}"
+  end
+end
+
+class BookManager
+  def initialize
     @books = []
+  end
+
+  def create_book(title, author)
+    new_book = Book.new(title, author)
+    @books << new_book
+    puts ''
+    puts 'Book saved successfully'
+  end
+
+  def list_all_books
+    if @books.empty?
+      puts 'There are no books'
+    else
+      @books.each_with_index { |book, index| puts "#{index}) Title: #{book.title} by Author: #{book.author}" }
+    end
+  end
+
+   def get_book(index)
+    @books[index]
+  end
+
+end
+
+class RentalManager
+  def initialize
     @rentals = []
   end
 
+  def create_rental(date, person, book)
+    new_rental = Rental.new(date, person, book)
+    @rentals << new_rental
+    puts ''
+    puts 'Rental created successfully'
+  end
+
+  def list_rentals_for_person(person_id)
+    @rentals.each do |rental|
+      puts "Date: #{rental.date}, Book: #{rental.book.title} by Author: #{rental.book.author}" if rental.person['id'] == person_id
+    end
+  end
+end
+
+class App
+  def initialize
+    @person_manager = PersonManager.new
+    @book_manager = BookManager.new
+    @rental_manager = RentalManager.new
+  end
 
   def run
     puts ''
     puts 'Welcome to the Library App!'
     puts ''
-    
+
     loop do
       puts ''
       print 'Please choose an option by selecting a number: '
@@ -29,31 +149,29 @@ class App
       puts '3. Create a person'
       puts '4. Create a book'
       puts '5. Create a rental'
-      puts '6. List rentals for a person with a give id'
+      puts '6. List rentals for a person with a given id'
       puts '7. Exit'
-      
 
       option = gets.chomp.to_i
 
       case option
-        when 1
-        list_all_books
-        when 2
-        list_all_people
-        when 3
+      when 1
+        @book_manager.list_all_books
+      when 2
+        @person_manager.list_all_people
+      when 3
         create_person_prompt
-        when 4
+      when 4
         create_book_prompt
-        when 5
+      when 5
         create_rental_prompt
-        when 6
+      when 6
         list_rentals_for_person_prompt
-        when 7
+      when 7
         break
-        else
+      else
         puts 'Invalid option. Please try again.'
-        end
-
+      end
     end
 
     puts 'Exiting the Library App. Goodbye!'
@@ -65,150 +183,95 @@ class App
     print 'Do you want to enter a student(1) or a teacher(2)): '
     options = gets.chomp.to_i
     if options == 1
-      puts ''
-      print 'Enter age: '
-      age = gets.chomp.to_i
-      print 'enter name: '
-      name = gets.chomp
-      print 'Does Student have parent_permission? (1 = yes, 2 = no):  '
-      parent_permission = gets.chomp.to_i
-
-      if parent_permission == 1
-        parent_permission = true
-      else 
-        parent_permission = false
-      end
-
-      print 'Enter classroom: '
-      classroom = gets.chomp
-      student = Student.new(age, name, parent_permission, classroom)
-
-      new_student =
-       {'age' => student.age,
-         'type' => 'student',
-        'name' => student.name,
-        'id' => student.id,
-        'parent_permission' => student.parent_permission,
-        'classroon' => student.classroom
-        }
-
-      @person['students'] << new_student
-      puts ''
-      puts new_student
-      puts 'student info saved'
-      puts ''
-
+      create_student_prompt
     else
-        puts ''
-        print 'Enter teacher age:  '
-        age = gets.chomp.to_i
-        print 'enter name: '
-        name = gets.chomp
-        print puts 'Does Teacher have parent_permission? (1 = yes, 2 = no):  '
-        parent_permission = gets.chomp.to_i
-
-      if parent_permission == 1
-        parent_permission = true
-      else 
-        parent_permission = false
-      end
-
-      print 'Enter Specialisation:  '
-      specialization = gets.chomp
-      teacher = Teacher.new(age, name, parent_permission, specialization)
-      new_teacher =
-       {'age' => teacher.age,
-         'type' => 'teacher',
-        'name' => teacher.name,
-        'id' => teacher.id,
-        'parent_permission' => teacher.parent_permission,
-        'specialization' => teacher.specialization
-       }
-      @person['teachers'] << new_teacher
-      puts ''
-      puts 'Teacher info Saved'
-      puts ''
+      create_teacher_prompt
     end
- end
+  end
+
+  def create_student_prompt
+    print 'Enter age: '
+    age = gets.chomp.to_i
+    print 'Enter name: '
+    name = gets.chomp
+    print 'Does Student have parent_permission? (1 = yes, 2 = no):  '
+    parent_permission = gets.chomp.to_i
+
+    if parent_permission == 1
+      parent_permission = true
+    else 
+      parent_permission = false
+    end
+
+    print 'Enter classroom: '
+    classroom = gets.chomp
+
+    @person_manager.create_student(age, name, parent_permission, classroom)
+    puts ''
+    puts 'Student saved successfully'
+  end
+
+  def create_teacher_prompt
+    print 'Enter teacher age:  '
+    age = gets.chomp.to_i
+    print 'Enter name: '
+    name = gets.chomp
+    puts 'Does Teacher have parent_permission? (1 = yes, 2 = no):  '
+    parent_permission = gets.chomp.to_i
+
+    if parent_permission == 1
+      parent_permission = true
+    else 
+      parent_permission = false
+    end
+
+    print 'Enter Specialisation:  '
+    specialization = gets.chomp
+
+    @person_manager.create_teacher(age, name, parent_permission, specialization)
+    puts ''
+    puts 'Teacher saved Successfully'
+  end
 
   def create_book_prompt
     print 'Enter title: '
     title = gets.chomp
     print 'Enter author: '
     author = gets.chomp
-    new_book = Book.new(title, author)
-    book_hash = {
-        'title' => new_book.title,
-        'author' => new_book.author,
-    }
-    @books << new_book
+    @book_manager.create_book(title, author)
     puts ''
-    puts 'Book saved Successfylly'
-    puts ''
+    puts 'Book saved successfully'
   end
 
   def create_rental_prompt
-    if @books.length == 0
-      puts ''
-      puts 'There are no book'
-      puts ''
-    else
-      puts 'Select a book by its number'
-      @books.each_with_index { |book, index| puts "#{index})Title: #{book.title} by  Author: #{book.author}" }
-      book_index = gets.chop.to_i
-      people = @person['teachers'] + @person['students']
-      labels = people.map { |person| person['type'] == 'teacher' ? '[teacher]' : '[student]' }
-      puts 'Select a person by its number'
+    puts 'Select a book by its number: '
+    @book_manager.list_all_books
+    book_index = gets.chomp.to_i
+    puts 'Select a person by its number: '
+    @person_manager.list_all_people
+    person_index = gets.chomp.to_i
 
-      people.each_with_index do |person, index|
-        label = labels[index]
-        puts "#{index})#{label} Name: #{person['name']}, ID: #{person['id']}, Age: #{person['age']}"
-      end
+    print 'Enter the date (MM/DD/YYYY): '
+    date_string = gets.chomp
 
-      person_index = gets.chop.to_i
-      print 'Enter the date (MM/DD/YYYY): '
-      date_string = gets.chomp
+    begin
+      date = Date.strptime(date_string, '%m/%d/%Y')
+    rescue ArgumentError
+      puts 'Invalid date format. Please enter the date in MM/DD/YYYY format.'
+      return
+    end
 
-      begin
-       date = Date.strptime(date_string, '%m/%d/%Y')
-       rescue ArgumentError
-       puts 'Invalid date format. Please enter the date in MM/DD/YYYY format.'
-      end
-      
-      date = "#{date}"
-      person_data = people[person_index]
-      book_data = @books[book_index]
-      new_rental = Rental.new(date, person_data, book_data)
-      @rentals << new_rental
-      puts ''
-      puts 'Rental created successfully'
-      puts ''
-    end    
+    @rental_manager.create_rental(date, @person_manager.get_person(person_index), @book_manager.get_book(book_index))
   end
 
   def list_rentals_for_person_prompt
     print 'Enter person ID: '
     person_id = gets.chomp.to_i
-    @rentals.each do
-     |rents|
-     puts "date #{rents.date}, book: #{rents.book.title},by Author: #{rents.book.author}" if rents.person['id'] == person_id
-    end
-   end
-
-   def list_all_books
-        if @books.length == 0
-          puts 'There are no book'
-          puts ''
-        else
-          @books.each_with_index { |book, index| puts "#{index})Title: #{book.title} by  Author: #{book.author}" }
-          puts ''
-        end
-   end
-
-   def list_all_people
-    @person['teachers'].each {|teacher| puts "[teacher] Name: #{teacher['name']}, ID: #{teacher['id']}, Age: #{teacher['age']}"}
-    @person['students'].each {|student| puts "[student] Name: #{student['name']}, ID: #{student['id']}, Age: #{student['age']}"}
-   end
+    @rental_manager.list_rentals_for_person(person_id)
+  end
 end
+
+
+
 
 
