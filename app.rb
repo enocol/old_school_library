@@ -138,42 +138,56 @@ class App
   end
 
   def run
+  display_welcome_message
+
+  loop do
+    print_options_menu
+    option = gets.chomp.to_i
+    process_option(option)
+    break if exit_option?(option)
+  end
+
+  display_goodbye_message
+  end
+
+  private
+
+  def display_welcome_message
     puts ''
     puts 'Welcome to the Library App!'
-    loop do
-      puts ''
-      print 'Please choose an option by selecting a number: '
-      puts "\nOptions:"
-      puts '1. List all books'
-      puts '2. List all people'
-      puts '3. Create a person'
-      puts '4. Create a book'
-      puts '5. Create a rental'
-      puts '6. List rentals for a person with a given id'
-      puts '7. Exit'
+  end
 
-      option = gets.chomp.to_i
+  def print_options_menu
+    puts ''
+    print 'Please choose an option by selecting a number: '
+    puts "\nOptions:"
+    puts '1. List all books'
+    puts '2. List all people'
+    puts '3. Create a person'
+    puts '4. Create a book'
+    puts '5. Create a rental'
+    puts '6. List rentals for a person with a given id'
+    puts '7. Exit'
+  end
 
-      case option
-      when 1
-        @book_manager.list_all_books
-      when 2
-        @person_manager.list_all_people
-      when 3
-        create_person_prompt
-      when 4
-        create_book_prompt
-      when 5
-        create_rental_prompt
-      when 6
-        list_rentals_for_person_prompt
-      when 7
-        break
-      else
-        puts 'Invalid option. Please try again.'
-      end
+  def process_option(option)
+    case option
+    when 1 then @book_manager.list_all_books
+    when 2 then @person_manager.list_all_people
+    when 3 then create_person_prompt
+    when 4 then create_book_prompt
+    when 5 then create_rental_prompt
+    when 6 then list_rentals_for_person_prompt
+    when 7 then exit
+    else puts 'Invalid option. Please try again.'
     end
+  end
 
+  def exit_option?(option)
+    option == 7
+  end
+
+  def display_goodbye_message
     puts 'Exiting the Library App. Goodbye!'
   end
 
