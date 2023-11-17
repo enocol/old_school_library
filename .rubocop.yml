@@ -51,7 +51,6 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: false
   Metrics/MethodLength:
-  Max: 100 # Adjust the value based on your preference or remove this line to disable completely
   Exclude:
     - 'app.rb' # Exclude this cop for the entire file
     - 'app.rb:138' # Exclude this cop for the specific line
