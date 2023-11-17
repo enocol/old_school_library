@@ -35,13 +35,13 @@ class PersonManager
   puts ''
   end
 
-  def teacher_info_str(teacher)
-    "[teacher] Name: #{teacher['name']}, ID: #{teacher['id']}, Age: #{teacher['age']}"
-  end
+ # def teacher_info_str(teacher)
+  #  "[teacher] Name: #{teacher['name']}, ID: #{teacher['id']}, Age: #{teacher['age']}"
+  #end
 
-  def student_info_str(student)
-    "[student] Name: #{student['name']}, ID: #{student['id']}, Age: #{student['age']}"
-  end
+  #def student_info_str(student)
+    #"[student] Name: #{student['name']}, ID: #{student['id']}, Age: #{student['age']}"
+ # end
 
 
    def get_person(index)
@@ -80,6 +80,7 @@ class PersonManager
   def teacher_info_str(teacher)
     "[teacher] Name: #{teacher['name']}, ID: #{teacher['id']}, Age: #{teacher['age']}"
   end
+
 end
 
 class BookManager
