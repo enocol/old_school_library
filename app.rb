@@ -123,7 +123,9 @@ class RentalManager
 
   def list_rentals_for_person(person_id)
     @rentals.each do |rental|
-      puts "Date: #{rental.date}, Book: #{rental.book.title} by Author: #{rental.book.author}" if rental.person['id'] == person_id
+      puts "Date: #{rental.date}, " \
+     "Book: #{rental.book.title} by " \
+     "Author: #{rental.book.author}" if rental.person['id'] == person_id
     end
   end
 end
@@ -138,12 +140,9 @@ class App
   def run
     puts ''
     puts 'Welcome to the Library App!'
-    puts ''
-
     loop do
       puts ''
       print 'Please choose an option by selecting a number: '
-      puts ''
       puts "\nOptions:"
       puts '1. List all books'
       puts '2. List all people'
