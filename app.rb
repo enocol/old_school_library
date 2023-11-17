@@ -182,8 +182,8 @@ end
   end
 
   def exit_app
-   puts 'Exiting the Library App. Goodbye!'
-   exit
+    puts 'Exiting the Library App. Goodbye!'
+    exit
   end
 
   def invalid_option
@@ -221,7 +221,7 @@ end
     parent_permission = gets.chomp.to_i
     parent_permission = parent_permission == 1
 
-    extra_info = (person_type == 'student') ? 'classroom' : 'specialization'
+    extra_info = person_type == 'student' ? 'classroom' : 'specialization'
     print "Enter #{extra_info}: "
     extra_value = gets.chomp
 
