@@ -4,6 +4,7 @@ require_relative 'book'
 require_relative 'rental'
 require_relative 'student'
 require_relative 'teacher'
+require 'date'
 
 class App
   def initialize
@@ -19,6 +20,7 @@ class App
     puts ''
     
     loop do
+      puts ''
       print 'Please choose an option by selecting a number: '
       puts ''
       puts "\nOptions:"
@@ -57,8 +59,6 @@ class App
     puts 'Exiting the Library App. Goodbye!'
   end
 
-  # ... (rest of the methods remain the same)
-
   private
 
   def create_person_prompt
@@ -72,22 +72,32 @@ class App
       name = gets.chomp
       print 'Does Student have parent_permission? (1 = yes, 2 = no):  '
       parent_permission = gets.chomp.to_i
+
       if parent_permission == 1
         parent_permission = true
       else 
         parent_permission = false
       end
+
       print 'Enter classroom: '
       classroom = gets.chomp
       student = Student.new(age, name, parent_permission, classroom)
+
       new_student =
-       {'age' => student.age, 'name' => student.name, 'parent_permission' => student.parent_permission, 'classroon' => student.classroom}
+       {'age' => student.age,
+         'type' => 'student',
+        'name' => student.name,
+        'id' => student.id,
+        'parent_permission' => student.parent_permission,
+        'classroon' => student.classroom
+        }
 
       @person['students'] << new_student
-      puts @person
       puts ''
+      puts new_student
       puts 'student info saved'
       puts ''
+
     else
         puts ''
         print 'Enter teacher age:  '
@@ -96,18 +106,25 @@ class App
         name = gets.chomp
         print puts 'Does Teacher have parent_permission? (1 = yes, 2 = no):  '
         parent_permission = gets.chomp.to_i
+
       if parent_permission == 1
         parent_permission = true
       else 
         parent_permission = false
       end
+
       print 'Enter Specialisation:  '
       specialization = gets.chomp
       teacher = Teacher.new(age, name, parent_permission, specialization)
       new_teacher =
-       {'age' => teacher.age, 'name' => teacher.name, 'parent_permission' => teacher.parent_permission, 'specialization' => teacher.specialization}
+       {'age' => teacher.age,
+         'type' => 'teacher',
+        'name' => teacher.name,
+        'id' => teacher.id,
+        'parent_permission' => teacher.parent_permission,
+        'specialization' => teacher.specialization
+       }
       @person['teachers'] << new_teacher
-      puts @person
       puts ''
       puts 'Teacher info Saved'
       puts ''
@@ -117,10 +134,8 @@ class App
   def create_book_prompt
     print 'Enter title: '
     title = gets.chomp
-
     print 'Enter author: '
     author = gets.chomp
-
     new_book = Book.new(title, author)
     book_hash = {
         'title' => new_book.title,
@@ -128,44 +143,72 @@ class App
     }
     @books << new_book
     puts ''
-    puts 'book saved'
+    puts 'Book saved Successfylly'
     puts ''
   end
 
   def create_rental_prompt
-    print 'Enter person ID: '
-    person_id = gets.chomp.to_i
+    if @books.length == 0
+      puts ''
+      puts 'There are no book'
+      puts ''
+    else
+      puts 'Select a book by its number'
+      @books.each_with_index { |book, index| puts "#{index})Title: #{book.title} by  Author: #{book.author}" }
+      book_index = gets.chop.to_i
+      people = @person['teachers'] + @person['students']
+      labels = people.map { |person| person['type'] == 'teacher' ? '[teacher]' : '[student]' }
+      puts 'Select a person by its number'
 
-    print 'Enter book index: '
-    book_index = gets.chomp.to_i
+      people.each_with_index do |person, index|
+        label = labels[index]
+        puts "#{index})#{label} Name: #{person['name']}, ID: #{person['id']}, Age: #{person['age']}"
+      end
 
-    print 'Enter rental date: '
-    date = gets.chomp
+      person_index = gets.chop.to_i
+      print 'Enter the date (MM/DD/YYYY): '
+      date_string = gets.chomp
 
-    create_rental_prompt(person_id, book_index, date)
+      begin
+       date = Date.strptime(date_string, '%m/%d/%Y')
+       rescue ArgumentError
+       puts 'Invalid date format. Please enter the date in MM/DD/YYYY format.'
+      end
+      
+      date = "#{date}"
+      person_data = people[person_index]
+      book_data = @books[book_index]
+      new_rental = Rental.new(date, person_data, book_data)
+      @rentals << new_rental
+      puts ''
+      puts 'Rental created successfully'
+      puts ''
+    end    
   end
 
   def list_rentals_for_person_prompt
     print 'Enter person ID: '
     person_id = gets.chomp.to_i
-
-    list_rentals_for_person(person_id)
+    @rentals.each do
+     |rents|
+     puts "date #{rents.date}, book: #{rents.book.title},by Author: #{rents.book.author}" if rents.person['id'] == person_id
+    end
    end
 
    def list_all_books
-    puts 'All Books:'
-    puts ''
         if @books.length == 0
           puts 'There are no book'
           puts ''
         else
-          @books.each { |book| puts "#{book.title} by #{book.author}" }
+          @books.each_with_index { |book, index| puts "#{index})Title: #{book.title} by  Author: #{book.author}" }
           puts ''
         end
    end
 
+   def list_all_people
+    @person['teachers'].each {|teacher| puts "[teacher] Name: #{teacher['name']}, ID: #{teacher['id']}, Age: #{teacher['age']}"}
+    @person['students'].each {|student| puts "[student] Name: #{student['name']}, ID: #{student['id']}, Age: #{student['age']}"}
+   end
 end
 
-# Example Usage:
-app = App.new
-app.run
+
