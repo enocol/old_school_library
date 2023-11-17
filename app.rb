@@ -1,3 +1,4 @@
+
 require_relative 'person'
 require_relative 'book'
 require_relative 'rental'
@@ -7,7 +8,7 @@ require 'date'
 
 class PersonManager
   def initialize
-    @people = {'teachers' => [], 'students' => []}
+    @people = { 'teachers' => [], 'students' => [] }
   end
 
   def create_student(age, name, parent_permission, classroom)
@@ -20,33 +21,24 @@ class PersonManager
     @people['teachers'] << teacher_info(teacher)
   end
 
- def list_all_people
-  teachers = @people['teachers']
-  students = @people['students']
+  def get_person(index)
+    people = @people['teachers'] + @people['students']
+    people[index]
+   end
 
-  teachers.each_with_index do |teacher, index|
-    puts "#{index}) #{teacher_info_str(teacher)}"
-  end
+  def list_all_people
+    teachers = @people['teachers']
+    students = @people['students']
 
-  students.each_with_index do |student, index|
+    teachers.each_with_index do |teacher, index|
+      puts "#{index}) #{teacher_info_str(teacher)}"
+    end
+
+    students.each_with_index do |student, index|
       puts "#{teachers.length + index}) #{student_info_str(student)}"
     end
 
-  puts ''
-  end
-
- # def teacher_info_str(teacher)
-  #  "[teacher] Name: #{teacher['name']}, ID: #{teacher['id']}, Age: #{teacher['age']}"
-  #end
-
-  #def student_info_str(student)
-    #"[student] Name: #{student['name']}, ID: #{student['id']}, Age: #{student['age']}"
- # end
-
-
-   def get_person(index)
-    people = @people['teachers'] + @people['students']
-    people[index]
+    puts ''
   end
 
   private
@@ -80,7 +72,6 @@ class PersonManager
   def teacher_info_str(teacher)
     "[teacher] Name: #{teacher['name']}, ID: #{teacher['id']}, Age: #{teacher['age']}"
   end
-
 end
 
 class BookManager
@@ -103,10 +94,9 @@ class BookManager
     end
   end
 
-   def get_book(index)
+  def get_book(index)
     @books[index]
   end
-
 end
 
 class RentalManager
@@ -124,8 +114,8 @@ class RentalManager
   def list_rentals_for_person(person_id)
     @rentals.each do |rental|
       puts "Date: #{rental.date}, " \
-     "Book: #{rental.book.title} by " \
-     "Author: #{rental.book.author}" if rental.person['id'] == person_id
+           "Book: #{rental.book.title} by " \
+           "Author: #{rental.book.author}" if rental.person['id'] == person_id
     end
   end
 end
@@ -138,16 +128,16 @@ class App
   end
 
   def run
-  display_welcome_message
+    display_welcome_message
 
-  loop do
-    print_options_menu
-    option = gets.chomp.to_i
-    process_option(option)
-    break if exit_option?(option)
-  end
+    loop do
+      print_options_menu
+      option = gets.chomp.to_i
+      process_option(option)
+      break if exit_option?(option)
+    end
 
-  display_goodbye_message
+    display_goodbye_message
   end
 
   private
@@ -195,56 +185,36 @@ class App
 
   def create_person_prompt
     print 'Do you want to enter a student(1) or a teacher(2)): '
-    options = gets.chomp.to_i
-    if options == 1
-      create_student_prompt
+    option = gets.chomp.to_i
+    if option == 1
+      create_person('student')
+    elsif option == 2
+      create_person('teacher')
     else
-      create_teacher_prompt
+      puts 'Invalid option. Please try again.'
     end
   end
 
-  def create_student_prompt
-    print 'Enter age: '
+  def create_person(person_type)
+    print "Enter #{person_type} age: "
     age = gets.chomp.to_i
     print 'Enter name: '
     name = gets.chomp
-    print 'Does Student have parent_permission? (1 = yes, 2 = no):  '
+    print "Does #{person_type} have parent_permission? (1 = yes, 2 = no): "
     parent_permission = gets.chomp.to_i
+    parent_permission = parent_permission == 1
 
-    if parent_permission == 1
-      parent_permission = true
-    else 
-      parent_permission = false
+    extra_info = (person_type == 'student') ? 'classroom' : 'specialization'
+    print "Enter #{extra_info}: "
+    extra_value = gets.chomp
+
+    if person_type == 'student'
+      @person_manager.create_student(age, name, parent_permission, extra_value)
+      puts 'Student saved successfully'
+    elsif person_type == 'teacher'
+      @person_manager.create_teacher(age, name, parent_permission, extra_value)
+      puts 'Teacher saved successfully'
     end
-
-    print 'Enter classroom: '
-    classroom = gets.chomp
-
-    @person_manager.create_student(age, name, parent_permission, classroom)
-    puts ''
-    puts 'Student saved successfully'
-  end
-
-  def create_teacher_prompt
-    print 'Enter teacher age:  '
-    age = gets.chomp.to_i
-    print 'Enter name: '
-    name = gets.chomp
-    puts 'Does Teacher have parent_permission? (1 = yes, 2 = no):  '
-    parent_permission = gets.chomp.to_i
-
-    if parent_permission == 1
-      parent_permission = true
-    else 
-      parent_permission = false
-    end
-
-    print 'Enter Specialisation:  '
-    specialization = gets.chomp
-
-    @person_manager.create_teacher(age, name, parent_permission, specialization)
-    puts ''
-    puts 'Teacher saved Successfully'
   end
 
   def create_book_prompt
@@ -253,7 +223,6 @@ class App
     print 'Enter author: '
     author = gets.chomp
     @book_manager.create_book(title, author)
-    puts ''
     puts 'Book saved successfully'
   end
 
@@ -276,6 +245,7 @@ class App
     end
 
     @rental_manager.create_rental(date, @person_manager.get_person(person_index), @book_manager.get_book(book_index))
+    puts 'Rental created successfully'
   end
 
   def list_rentals_for_person_prompt
@@ -284,7 +254,6 @@ class App
     @rental_manager.list_rentals_for_person(person_id)
   end
 end
-
 
 
 
