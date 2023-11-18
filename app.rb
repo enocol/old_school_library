@@ -49,11 +49,11 @@ class App
     puts '7. Exit'
   end
 
-   def exit_option?(option)
+  def exit_option?(option)
     option == 7
   end
 
-    def process_option(option)
+  def process_option(option)
     case option
     when 1 then list_all_books
     when 2 then list_all_people
