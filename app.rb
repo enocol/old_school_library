@@ -161,16 +161,16 @@ class App
   end
 
   def process_option(option)
-    case option
-    when 1 then list_all_books
-    when 2 then list_all_people
-    when 3 then create_person_prompt
-    when 4 then create_book_prompt
-    when 5 then create_rental_prompt
-    when 6 then list_rentals_for_person_prompt
-    when 7 then exit_app
-    else invalid_option
-    end
+  case option
+  when 1 then list_all_books
+  when 2 then list_all_people
+  when 3 then create_person_prompt
+  when 4 then create_book_prompt
+  when 5 then create_rental_prompt
+  when 6 then list_rentals_for_person_prompt
+  when 7 then exit_app
+  else invalid_option
+  end
   end
 
   def list_all_books
