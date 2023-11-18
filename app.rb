@@ -36,7 +36,7 @@ class App
     puts 'Welcome to the Library App!'
   end
 
-  def print_options_menu
+   def print_options_menu
     puts ''
     print 'Please choose an option by selecting a number: '
     puts "\nOptions:"

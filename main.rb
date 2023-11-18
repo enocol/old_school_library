@@ -3,7 +3,8 @@ require_relative 'app'
 def main
   app = App.new
   app.run
-  def print_options_menu
+ run_app = ->{
+   def print_options_menu
     puts ''
     print 'Please choose an option by selecting a number: '
     puts "\nOptions:"
@@ -15,5 +16,6 @@ def main
     puts '6. List rentals for a person with a given id'
     puts '7. Exit'
   end
+ }
 end
 main
