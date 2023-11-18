@@ -119,7 +119,6 @@ class App
     print 'Enter author: '
     author = gets.chomp
     @book_manager.create_book(title, author)
-    puts 'Book saved successfully'
   end
 
   def create_rental_prompt
@@ -141,7 +140,6 @@ class App
     end
 
     @rental_manager.create_rental(date, @person_manager.get_person(person_index), @book_manager.get_book(book_index))
-    puts 'Rental created successfully'
   end
 
   def list_rentals_for_person_prompt
