@@ -5,6 +5,7 @@ AllCops:
     - 'Guardfile'
     - 'Rakefile'
     - 'node_modules/**/*'
+    - 'c:/old_school_library/app.rb'
 
   DisplayCopNames: true
 
