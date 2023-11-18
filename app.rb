@@ -199,8 +199,6 @@ class App
     puts 'Exiting the Library App. Goodbye!'
   end
 
-  private
-
   def create_person_prompt
     print 'Do you want to enter a student(1) or a teacher(2)): '
     option = gets.chomp.to_i
@@ -272,4 +270,3 @@ class App
     @rental_manager.list_rentals_for_person(person_id)
   end
 end
-
