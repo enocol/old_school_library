@@ -148,3 +148,4 @@ class App
     @rental_manager.list_rentals_for_person(person_id)
   end
 end
+
