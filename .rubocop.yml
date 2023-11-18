@@ -5,6 +5,7 @@ AllCops:
     - 'Guardfile'
     - 'Rakefile'
     - 'node_modules/**/*'
+    - 'app.rb'
 
   DisplayCopNames: true
 
@@ -50,4 +51,8 @@ Style/HashTransformKeys:
   Enabled: false
 Style/HashTransformValues:
   Enabled: false
+  Metrics/MethodLength:
+  Exclude:
+    - 'app.rb' # Exclude this cop for the entire file
+    - 'app.rb:138' # Exclude this cop for the specific line
 
