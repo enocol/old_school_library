@@ -149,6 +149,4 @@ class App
     person_id = gets.chomp.to_i
     @rental_manager.list_rentals_for_person(person_id)
   end
-
-  
 end
