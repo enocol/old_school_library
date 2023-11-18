@@ -117,10 +117,10 @@ class RentalManager
         puts "Date: #{rental.date}, " \
              "Book: #{rental.book.title} by " \
              "Author: #{rental.book.author}"
-      end
     end
   end
 end
+
 
 class App
   def initialize
