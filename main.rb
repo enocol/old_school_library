@@ -4,7 +4,6 @@ def main
   app = App.new
   app.run
 end
-
 class Main
   def print_options_menu
     puts ''
