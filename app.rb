@@ -11,6 +11,11 @@ class App
     @rental_manager = RentalManager.new
   end
 
+   def exit_app
+    puts 'Exiting the Library App. Goodbye!'
+    exit
+   end
+
   def run
     display_welcome_message
 
@@ -44,7 +49,11 @@ class App
     puts '7. Exit'
   end
 
-  def process_option(option)
+   def exit_option?(option)
+    option == 7
+  end
+
+    def process_option(option)
     case option
     when 1 then list_all_books
     when 2 then list_all_people
@@ -57,6 +66,7 @@ class App
     end
   end
 
+  # New methods to reduce Cyclomatic Complexity
   def list_all_books
     @book_manager.list_all_books
   end
@@ -65,36 +75,23 @@ class App
     @person_manager.list_all_people
   end
 
-  def exit_app
-    puts 'Exiting the Library App. Goodbye!'
-    exit
-  end
-
-  def invalid_option
-    puts 'Invalid option. Please try again.'
-  end
-
-  def exit_option?(option)
-    option == 7
-  end
-
-  def display_goodbye_message
-    puts 'Exiting the Library App. Goodbye!'
-  end
-
   def create_person_prompt
     print 'Do you want to enter a student(1) or a teacher(2)): '
     option = gets.chomp.to_i
+    create_person(option)
+  end
+
+  def create_person(option)
     if option == 1
-      create_person('student')
+      create_person_by_type('student')
     elsif option == 2
-      create_person('teacher')
+      create_person_by_type('teacher')
     else
       puts 'Invalid option. Please try again.'
     end
   end
 
-  def create_person(person_type)
+  def create_person_by_type(person_type)
     print "Enter #{person_type} age: "
     age = gets.chomp.to_i
     print 'Enter name: '
@@ -152,4 +149,6 @@ class App
     person_id = gets.chomp.to_i
     @rental_manager.list_rentals_for_person(person_id)
   end
+
+  
 end
