@@ -1,4 +1,10 @@
 require_relative 'app'
 
-app = App.new
-app.run
+def main
+  app = App.new
+  app.run
+end
+main
+
+
+
