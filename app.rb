@@ -11,10 +11,10 @@ class App
     @rental_manager = RentalManager.new
   end
 
-   def exit_app
+  def exit_app
     puts 'Exiting the Library App. Goodbye!'
     exit
-   end
+  end
 
   def run
     display_welcome_message
