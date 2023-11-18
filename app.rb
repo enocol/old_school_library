@@ -111,14 +111,14 @@ class RentalManager
   end
 
   def list_rentals_for_person(person_id)
-    @rentals.each do |rental|
-      next unless rental.person['id'] == person_id
-        puts "Date: #{rental.date}, " \
-             "Book: #{rental.book.title} by " \
-             "Author: #{rental.book.author}"
-        end
+  @rentals.each do |rental|
+    next unless rental.person['id'] == person_id
+
+    puts "Date: #{rental.date}, " \
+         "Book: #{rental.book.title} by " \
+         "Author: #{rental.book.author}"
     end
-end
+  end
 
 class App
   def initialize
