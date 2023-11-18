@@ -1,11 +1,24 @@
+
 require_relative 'app'
 
-def main
-  app = App.new
-  app.run
-end
-
 class Main
+  def initialize(app)
+    @app = app
+  end
+
+  def run
+    @app.display_welcome_message
+
+    loop do
+      print_options_menu
+      option = gets.chomp.to_i
+      @app.process_option(option)
+      break if @app.exit_option?(option)
+    end
+
+    @app.display_goodbye_message
+  end
+
   def print_options_menu
     puts ''
     print 'Please choose an option by selecting a number: '
@@ -19,4 +32,7 @@ class Main
     puts '7. Exit'
   end
 end
-main
+
+app = App.new
+main = Main.new(app)
+main.run

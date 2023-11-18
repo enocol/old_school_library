@@ -3,7 +3,6 @@ require_relative 'person_manager'
 require_relative 'book_manager'
 require_relative 'rental_manager'
 
-# app.rb
 class App
   def initialize
     @person_manager = PersonManager.new
@@ -11,46 +10,9 @@ class App
     @rental_manager = RentalManager.new
   end
 
-  def exit_app
-    puts 'Exiting the Library App. Goodbye!'
-    exit
-  end
-
-  def run
-    display_welcome_message
-
-    loop do
-      print_options_menu
-      option = gets.chomp.to_i
-      process_option(option)
-      break if exit_option?(option)
-    end
-
-    display_goodbye_message
-  end
-
-  private
-
   def display_welcome_message
     puts ''
     puts 'Welcome to the Library App!'
-  end
-
-   def print_options_menu
-    puts ''
-    print 'Please choose an option by selecting a number: '
-    puts "\nOptions:"
-    puts '1. List all books'
-    puts '2. List all people'
-    puts '3. Create a person'
-    puts '4. Create a book'
-    puts '5. Create a rental'
-    puts '6. List rentals for a person with a given id'
-    puts '7. Exit'
-  end
-
-  def exit_option?(option)
-    option == 7
   end
 
   def process_option(option)
@@ -66,7 +28,6 @@ class App
     end
   end
 
-  # New methods to reduce Cyclomatic Complexity
   def list_all_books
     @book_manager.list_all_books
   end
@@ -75,23 +36,36 @@ class App
     @person_manager.list_all_people
   end
 
+  def exit_app
+    puts 'Exiting the Library App. Goodbye!'
+    exit
+  end
+
+  def invalid_option
+    puts 'Invalid option. Please try again.'
+  end
+
+  def exit_option?(option)
+    option == 7
+  end
+
+  def display_goodbye_message
+    puts 'Exiting the Library App. Goodbye!'
+  end
+
   def create_person_prompt
     print 'Do you want to enter a student(1) or a teacher(2)): '
     option = gets.chomp.to_i
-    create_person(option)
-  end
-
-  def create_person(option)
     if option == 1
-      create_person_by_type('student')
+      create_person('student')
     elsif option == 2
-      create_person_by_type('teacher')
+      create_person('teacher')
     else
       puts 'Invalid option. Please try again.'
     end
   end
 
-  def create_person_by_type(person_type)
+  def create_person(person_type)
     print "Enter #{person_type} age: "
     age = gets.chomp.to_i
     print 'Enter name: '
@@ -119,6 +93,7 @@ class App
     print 'Enter author: '
     author = gets.chomp
     @book_manager.create_book(title, author)
+    puts 'Book saved successfully'
   end
 
   def create_rental_prompt
@@ -140,6 +115,7 @@ class App
     end
 
     @rental_manager.create_rental(date, @person_manager.get_person(person_index), @book_manager.get_book(book_index))
+    puts 'Rental created successfully'
   end
 
   def list_rentals_for_person_prompt
@@ -148,4 +124,3 @@ class App
     @rental_manager.list_rentals_for_person(person_id)
   end
 end
-
