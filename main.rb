@@ -6,7 +6,6 @@ def main
 end
 
 class Main
-
   def print_options_menu
     puts ''
     print 'Please choose an option by selecting a number: '
