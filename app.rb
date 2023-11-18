@@ -119,6 +119,7 @@ class RentalManager
          "Author: #{rental.book.author}"
     end
   end
+end
 
 class App
   def initialize
