@@ -39,6 +39,7 @@
 - **[Nameable class as a decorator interface]**
 - **[Trimmer_decorator and Capitalize_decorator to trim and capitalise]**
 - **[Create associations]**
+- **[A User interface]**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
